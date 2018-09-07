@@ -5,7 +5,7 @@ import numpy
 import codecs
 from PIL import Image
 
-MAGIC_NUMBER = b'stegv1'
+MAGIC_NUMBER = b'stegv2'
 
 def getImage(image_path):
     ''' Returns a numpy array of an image so that one can access values[x][y]. '''
@@ -34,7 +34,7 @@ def insert_message(message, image_path):
     print("Number of characters: {:,}".format(number_of_characters))
     print("Maximum character storage: {:,}".format(max_message_len))
 
-    if(number_of_pixels < number_of_characters//4):
+    if(number_of_pixels < number_of_characters*4):
         print('You have too few pixels to store that information. Aborting.')
         exit(-1)
     else:
@@ -46,7 +46,6 @@ def insert_message(message, image_path):
 
     msg = numpy.zeros(max_message_len, dtype=numpy.uint8)
     msg[:len(message)] = list(message)
-
 
     pixels &= 252 # clear 2 lsb for all bytes
     for i in range(4):
